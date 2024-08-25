@@ -1,7 +1,11 @@
-package com.tools.swing.smallpanel;
+package com.tools.swing.progressbar;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.swing.*;
-import javax.swing.plaf.ProgressBarUI;
+import java.awt.*;
+import java.util.List;
 
 public class TsArcProgressBar extends JProgressBar {
 
@@ -9,9 +13,18 @@ public class TsArcProgressBar extends JProgressBar {
 
     static {
         UIManager.put("TsArcProgressBarUI", TsArcProgressBarUI.class.getName());
+        UIManager.put("TsArcProgressBar.Foreground", new Color(146,208,80));
+        UIManager.put("TsArcProgressBar.Background", new Color(191,191,191));
 //        String prefix = UIManager.getLookAndFeel().getID();
 //        UIManager.getLookAndFeelDefaults().put("TsArcProgressBarUI")
     }
+
+    @Getter
+    @Setter
+    private String label;
+
+    private List<Color> colorData;
+    private List<Double> percentageData;
 
     public TsArcProgressBar(){
         super();

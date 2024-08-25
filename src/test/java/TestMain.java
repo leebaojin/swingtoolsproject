@@ -1,14 +1,12 @@
-import com.tools.swing.smallpanel.TsArcProgressBar;
-import com.tools.swing.smallpanel.TsArcProgressBarUI;
+import com.tools.swing.progressbar.TsArcProgressBar;
+import com.tools.swing.progressbar.TsArcProgressBarUI;
 import com.tools.swing.smallpanel.TsTextWButton;
-import org.junit.jupiter.api.Test;
 import testframe.TestFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.NumberFormat;
 
 public class TestMain {
 

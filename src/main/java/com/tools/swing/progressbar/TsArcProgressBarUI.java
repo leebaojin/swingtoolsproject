@@ -1,4 +1,4 @@
-package com.tools.swing.smallpanel;
+package com.tools.swing.progressbar;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -30,7 +30,10 @@ public class TsArcProgressBarUI extends BasicProgressBarUI {
     @Setter
     private Color emptyColor = new Color(191,191,191);
 
-    private JProgressBar progressBar;
+    private TsColorPercentageControl colorControl;
+
+    @Getter
+    private TsArcProgressBar progressBar;
     @Override
     public Dimension getPreferredSize(JComponent c) {
         Dimension d = super.getPreferredSize(c);
@@ -49,10 +52,11 @@ public class TsArcProgressBarUI extends BasicProgressBarUI {
 
     @Override
     public void paint(Graphics g, JComponent c) {
-        if(!(c instanceof JProgressBar)){
-            throw new RuntimeException("Invalid use of Progress Bar UI");
+        if(!(c instanceof TsArcProgressBar)){
+            super.paint(g, c);
+            return;
         }
-        this.progressBar = (JProgressBar) c;
+        this.progressBar = (TsArcProgressBar) c;
 
         Insets border = progressBar.getInsets(); // area for border
         int barRectWidth  = progressBar.getWidth()  - border.right - border.left;
@@ -102,10 +106,12 @@ public class TsArcProgressBarUI extends BasicProgressBarUI {
         Area areaNone = new Area(outerNone);
         areaNone.subtract(new Area(inner));
 
-        g2.setColor(successColor);
+        Color barColor = colorControl.getColorWithValue(progressBar.getPercentComplete());
+        System.out.println(progressBar.getPercentComplete() + " "+ barColor);
+        g2.setColor(barColor);
         g2.fill(areaSuccess);
 
-        g2.setColor(emptyColor);
+        g2.setColor(colorControl.getEmptyColor());
         g2.fill(areaNone);
         g2.dispose();
 
@@ -169,7 +175,7 @@ public class TsArcProgressBarUI extends BasicProgressBarUI {
         Graphics2D g2 = (Graphics2D)g;
         String nameString = progressBar.getName();
         Font font = progressBar.getFont();
-        Font updatedFont = font.deriveFont(font.getStyle(),font.getSize() - 5);
+        Font updatedFont = font.deriveFont(font.getStyle(),font.getSize() - nameSizeReduction);
         g2.setFont(updatedFont);
 
         Point renderLocation = getStringPlacementName(g2, nameString,
@@ -225,11 +231,25 @@ public class TsArcProgressBarUI extends BasicProgressBarUI {
         }
     }
 
+    public void setColorControl(TsColorPercentageControl colorControl){
+        if(colorControl != null){
+            this.colorControl = colorControl;
+        }
+    }
 
 
     public static TsArcProgressBarUI createUI(JComponent c){
         return new TsArcProgressBarUI();
     }
 
+    @Override
+    protected void installDefaults() {
+        super.installDefaults();
 
+        colorControl = new TsColorPercentageControl(true);
+//        successColor = UIManager.getColor("ProgressBar.selectionForeground");
+        successColor = UIManager.getColor("TsArcProgressBar.Foreground");
+//        emptyColor = UIManager.getColor("ProgressBar.selectionBackground");
+        emptyColor = UIManager.getColor("TsArcProgressBar.Background");
+    }
 }
