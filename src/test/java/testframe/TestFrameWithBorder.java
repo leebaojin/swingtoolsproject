@@ -3,12 +3,12 @@ package testframe;
 import javax.swing.*;
 import java.awt.*;
 
-public class TestFrame extends JFrame {
+public class TestFrameWithBorder extends JFrame {
 
-    public TestFrame(){
+    public TestFrameWithBorder(){
         super();
         setSize(400,300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//        setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
     }
 }
